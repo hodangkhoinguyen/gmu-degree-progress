@@ -12,17 +12,17 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "pdfjs-dist": "^4.7.76",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
+    "pdfjs-dist": "^6.1.200",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.1"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.3",
-    "oxlint": "^1.71.0",
-    "vite": "^8.1.1",
-    "vitest": "^3.2.4"
+    "@vitejs/plugin-react": "^6.0.4",
+    "oxlint": "^1.75.0",
+    "vite": "^8.1.5",
+    "vitest": "^4.1.10"
   }
 }
