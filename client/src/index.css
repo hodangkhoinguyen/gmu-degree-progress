@@ -123,6 +123,17 @@ button.primary {
 }
 button:disabled { opacity: 0.5; cursor: not-allowed; }
 
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  color: var(--text);
+}
+.icon-button:hover { border-color: var(--accent); color: var(--accent); }
+
 input, textarea, select {
   font-family: inherit;
   font-size: 0.95rem;

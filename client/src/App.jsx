@@ -6,6 +6,7 @@ import DegreePicker from "./pages/DegreePicker.jsx";
 import ProgressReport from "./pages/ProgressReport.jsx";
 import Footer from "./components/Footer.jsx";
 import ThemeToggle from "./components/ThemeToggle.jsx";
+import GitHubLink from "./components/GitHubLink.jsx";
 
 function Nav() {
   return (
@@ -17,6 +18,7 @@ function Nav() {
       <NavLink to="/transcript">Transcript</NavLink>
       <NavLink to="/programs">Degree</NavLink>
       <NavLink to="/report">Progress</NavLink>
+      <GitHubLink />
       <ThemeToggle />
     </nav>
   );
