@@ -4,6 +4,8 @@ import Home from "./pages/Home.jsx";
 import TranscriptUpload from "./pages/TranscriptUpload.jsx";
 import DegreePicker from "./pages/DegreePicker.jsx";
 import ProgressReport from "./pages/ProgressReport.jsx";
+import Footer from "./components/Footer.jsx";
+import ThemeToggle from "./components/ThemeToggle.jsx";
 
 function Nav() {
   return (
@@ -15,6 +17,7 @@ function Nav() {
       <NavLink to="/transcript">Transcript</NavLink>
       <NavLink to="/programs">Degree</NavLink>
       <NavLink to="/report">Progress</NavLink>
+      <ThemeToggle />
     </nav>
   );
 }
@@ -30,6 +33,7 @@ export default function App() {
           <Route path="/programs" element={<DegreePicker />} />
           <Route path="/report" element={<ProgressReport />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </AppStateProvider>
   );

@@ -35,7 +35,44 @@
   }
 }
 
+/* Explicit overrides from the theme toggle — win over prefers-color-scheme
+   in either direction since they're set as an attribute on <html>. */
+:root[data-theme="light"] {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --border: #dfe3e8;
+  --text: #1a1d21;
+  --text-muted: #5c6470;
+  --accent: #1f6feb;
+  --accent-contrast: #ffffff;
+  --success: #1a7f37;
+  --success-bg: #dafbe1;
+  --warning: #9a6700;
+  --warning-bg: #fff8c5;
+  --danger: #cf222e;
+  --danger-bg: #ffebe9;
+}
+:root[data-theme="dark"] {
+  --bg: #0f1216;
+  --surface: #171b21;
+  --border: #2b3138;
+  --text: #e6e8eb;
+  --text-muted: #9aa4af;
+  --accent: #58a6ff;
+  --accent-contrast: #0b1420;
+  --success: #3fb950;
+  --success-bg: #0f2b17;
+  --warning: #d29922;
+  --warning-bg: #2b2110;
+  --danger: #f85149;
+  --danger-bg: #2c1214;
+}
+
 * { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+}
 
 body {
   margin: 0;
@@ -44,9 +81,12 @@ body {
 }
 
 #root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   max-width: 960px;
   margin: 0 auto;
-  padding: 1.5rem 1rem 4rem;
+  padding: 1.5rem 1rem 0;
 }
 
 a { color: var(--accent); }
@@ -192,6 +232,16 @@ th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+
+.footer {
+  margin-top: auto;
+  padding: 1.5rem 0 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-align: center;
+}
+.footer a { color: inherit; text-decoration: underline; }
 
 @media print {
   .nav, .no-print { display: none !important; }
