@@ -1,71 +1,86 @@
+/* Palette is built around Mason's own green/gold identity rather than a
+   generic UI blue — warm cream surfaces in light mode, deep green-black in
+   dark, green as the primary accent, gold reserved for small highlights. */
 :root {
   color-scheme: light dark;
-  --bg: #f7f8fa;
+  --bg: #faf5e6;
   --surface: #ffffff;
-  --border: #dfe3e8;
-  --text: #1a1d21;
-  --text-muted: #5c6470;
-  --accent: #1f6feb;
+  --border: #e6dcc0;
+  --text: #1c2620;
+  --text-muted: #6e6a56;
+  --accent: #00693e;
   --accent-contrast: #ffffff;
-  --success: #1a7f37;
-  --success-bg: #dafbe1;
-  --warning: #9a6700;
-  --warning-bg: #fff8c5;
-  --danger: #cf222e;
-  --danger-bg: #ffebe9;
+  --gold: #a3760a;
+  --gold-bg: #fbecc4;
+  --success: #15803d;
+  --success-bg: #dcf7e3;
+  --warning: #a15c00;
+  --warning-bg: #fdecc8;
+  --danger: #c0272d;
+  --danger-bg: #fbe4e1;
   --radius: 10px;
+  --shadow: 0 1px 2px rgba(28, 38, 32, 0.05), 0 4px 14px rgba(28, 38, 32, 0.05);
   font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0f1216;
-    --surface: #171b21;
-    --border: #2b3138;
-    --text: #e6e8eb;
-    --text-muted: #9aa4af;
-    --accent: #58a6ff;
-    --accent-contrast: #0b1420;
-    --success: #3fb950;
-    --success-bg: #0f2b17;
-    --warning: #d29922;
-    --warning-bg: #2b2110;
-    --danger: #f85149;
-    --danger-bg: #2c1214;
+    --bg: #0e1712;
+    --surface: #16211b;
+    --border: #2a362e;
+    --text: #edefe7;
+    --text-muted: #9da69b;
+    --accent: #34b577;
+    --accent-contrast: #06140d;
+    --gold: #e8b923;
+    --gold-bg: #3a2e0c;
+    --success: #34c173;
+    --success-bg: #11341f;
+    --warning: #e0a63a;
+    --warning-bg: #3a2c0c;
+    --danger: #f0645f;
+    --danger-bg: #3a1616;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 4px 14px rgba(0, 0, 0, 0.25);
   }
 }
 
 /* Explicit overrides from the theme toggle — win over prefers-color-scheme
    in either direction since they're set as an attribute on <html>. */
 :root[data-theme="light"] {
-  --bg: #f7f8fa;
+  --bg: #faf5e6;
   --surface: #ffffff;
-  --border: #dfe3e8;
-  --text: #1a1d21;
-  --text-muted: #5c6470;
-  --accent: #1f6feb;
+  --border: #e6dcc0;
+  --text: #1c2620;
+  --text-muted: #6e6a56;
+  --accent: #00693e;
   --accent-contrast: #ffffff;
-  --success: #1a7f37;
-  --success-bg: #dafbe1;
-  --warning: #9a6700;
-  --warning-bg: #fff8c5;
-  --danger: #cf222e;
-  --danger-bg: #ffebe9;
+  --gold: #a3760a;
+  --gold-bg: #fbecc4;
+  --success: #15803d;
+  --success-bg: #dcf7e3;
+  --warning: #a15c00;
+  --warning-bg: #fdecc8;
+  --danger: #c0272d;
+  --danger-bg: #fbe4e1;
+  --shadow: 0 1px 2px rgba(28, 38, 32, 0.05), 0 4px 14px rgba(28, 38, 32, 0.05);
 }
 :root[data-theme="dark"] {
-  --bg: #0f1216;
-  --surface: #171b21;
-  --border: #2b3138;
-  --text: #e6e8eb;
-  --text-muted: #9aa4af;
-  --accent: #58a6ff;
-  --accent-contrast: #0b1420;
-  --success: #3fb950;
-  --success-bg: #0f2b17;
-  --warning: #d29922;
-  --warning-bg: #2b2110;
-  --danger: #f85149;
-  --danger-bg: #2c1214;
+  --bg: #0e1712;
+  --surface: #16211b;
+  --border: #2a362e;
+  --text: #edefe7;
+  --text-muted: #9da69b;
+  --accent: #34b577;
+  --accent-contrast: #06140d;
+  --gold: #e8b923;
+  --gold-bg: #3a2e0c;
+  --success: #34c173;
+  --success-bg: #11341f;
+  --warning: #e0a63a;
+  --warning-bg: #3a2c0c;
+  --danger: #f0645f;
+  --danger-bg: #3a1616;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 4px 14px rgba(0, 0, 0, 0.25);
 }
 
 * { box-sizing: border-box; }
@@ -127,19 +142,36 @@ th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(
   border-radius: var(--radius);
   padding: 1rem 1.25rem;
   margin-bottom: 1rem;
+  box-shadow: var(--shadow);
 }
 
 .nav {
   display: flex;
-  gap: 1.25rem;
+  gap: 1.5rem;
   align-items: center;
   padding-bottom: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   border-bottom: 1px solid var(--border);
 }
-.nav a { color: var(--text-muted); text-decoration: none; font-weight: 500; }
-.nav a.active, .nav a:hover { color: var(--text); }
-.nav .brand { font-weight: 700; color: var(--text); margin-right: auto; }
+.nav a { color: var(--text-muted); text-decoration: none; font-weight: 500; padding-bottom: 4px; border-bottom: 2px solid transparent; }
+.nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+.nav a:hover { color: var(--text); }
+.nav .brand {
+  font-weight: 800;
+  font-size: 1.4rem;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-right: auto;
+}
+.nav .brand::before {
+  content: "";
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 2px;
+  background: var(--gold);
+  margin-right: 0.5rem;
+}
 
 .badge {
   display: inline-block;
@@ -197,8 +229,8 @@ th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(
   transform: translateX(-50%) translateY(4px);
   min-width: 10rem;
   max-width: 16rem;
-  background: var(--text);
-  color: var(--bg);
+  background: #1c2620;
+  color: #f5f2e6;
   border-radius: 8px;
   padding: 0.45rem 0.6rem;
   font-size: 0.78rem;
@@ -217,15 +249,14 @@ th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(
   left: 50%;
   transform: translateX(-50%);
   border: 5px solid transparent;
-  border-top-color: var(--text);
+  border-top-color: #1c2620;
 }
 .course-chip-tooltip .code {
   font-weight: 700;
   display: block;
 }
 .course-chip-tooltip .credits {
-  color: var(--text-muted);
-  opacity: 0.85;
+  color: #c9c4ae;
 }
 .course-chip-wrap:hover .course-chip-tooltip,
 .course-chip-wrap:focus-within .course-chip-tooltip {
