@@ -1,0 +1,13 @@
+{
+  "name": "gmu-catalog-importer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "scrape": "node src/scrapeCatalog.js",
+    "seed:cs": "node src/seed/applySeed.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  }
+}
