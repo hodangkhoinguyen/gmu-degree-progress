@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { normalizeCode, extractCourseCodes } from "../courseCodes.js";
+import { normalizeCode, extractCourseCodes, isValidCourseCodeFormat } from "../courseCodes.js";
 
 describe("normalizeCode", () => {
   it("uppercases and collapses whitespace", () => {
@@ -21,5 +21,20 @@ describe("extractCourseCodes", () => {
     expect(extractCourseCodes("CS 310, then CS 310 again")).toEqual(["CS 310"]);
     expect(extractCourseCodes("no course codes here")).toEqual([]);
     expect(extractCourseCodes(null)).toEqual([]);
+  });
+});
+
+describe("isValidCourseCodeFormat", () => {
+  it("accepts subject + 3-digit number, loosely spaced/cased", () => {
+    expect(isValidCourseCodeFormat("CS 310")).toBe(true);
+    expect(isValidCourseCodeFormat("cs   310")).toBe(true);
+    expect(isValidCourseCodeFormat("SWE 619")).toBe(true);
+  });
+
+  it("rejects typos, junk, and empty input", () => {
+    expect(isValidCourseCodeFormat("CS31")).toBe(false);
+    expect(isValidCourseCodeFormat("hello")).toBe(false);
+    expect(isValidCourseCodeFormat("")).toBe(false);
+    expect(isValidCourseCodeFormat(undefined)).toBe(false);
   });
 });

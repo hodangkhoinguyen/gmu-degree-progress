@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppState } from "../state/AppStateContext.jsx";
 import { parseTranscriptText } from "../lib/transcriptParser.js";
 import { extractPdfText } from "../lib/pdfText.js";
+import { loadCatalog } from "../lib/loadPrograms.js";
+import { normalizeCode } from "../lib/courseCodes.js";
 import CourseTable from "../components/CourseTable.jsx";
 
 export default function TranscriptUpload() {
@@ -12,7 +14,14 @@ export default function TranscriptUpload() {
   const [warnings, setWarnings] = useState([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
+  const [courseByCode, setCourseByCode] = useState(new Map());
   const navigate = useNavigate();
+
+  useEffect(() => {
+    loadCatalog().then(({ courses: catalogCourses }) => {
+      setCourseByCode(new Map(catalogCourses.map((c) => [normalizeCode(c.code), c])));
+    });
+  }, []);
 
   function parseAndReview(text) {
     const { courses: parsed, warnings: w } = parseTranscriptText(text);
@@ -44,6 +53,14 @@ export default function TranscriptUpload() {
   function handleSave() {
     setTranscript({ uploadedAt: new Date().toISOString(), rawText, courses });
     navigate("/programs");
+  }
+
+  function handleClearAll() {
+    if (!window.confirm(`Remove all ${courses.length} course${courses.length === 1 ? "" : "s"}? This can't be undone.`)) {
+      return;
+    }
+    setCourses([]);
+    setTranscript({ uploadedAt: new Date().toISOString(), rawText, courses: [] });
   }
 
   return (
@@ -83,11 +100,15 @@ export default function TranscriptUpload() {
 
       {courses.length > 0 && (
         <div className="card">
-          <h3>Review parsed courses</h3>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+            <h3>Review parsed courses</h3>
+            <button onClick={handleClearAll}>Clear all</button>
+          </div>
           <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
             Fix anything that parsed wrong, remove rows that don't belong, or add missing courses by hand.
+            A ⚠ next to a code means it doesn't look valid or isn't in our GMU catalog data.
           </p>
-          <CourseTable courses={courses} onChange={setCourses} />
+          <CourseTable courses={courses} onChange={setCourses} courseByCode={courseByCode} />
           <button className="primary" style={{ marginTop: "1rem" }} onClick={handleSave}>
             Save & choose a degree →
           </button>
