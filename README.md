@@ -5,7 +5,9 @@ transcript, pick a program (any level/major GMU offers, with concentration suppo
 exactly which requirements are satisfied, which are missing, and what your options are for each
 remaining slot.
 
-**Not an official degree audit.** Requirement data is scraped from the public
+**Not an official degree audit, and not affiliated with or endorsed by George Mason University.**
+This is just a student's personal side project to track their own degree progress — not a
+university product. Requirement data is scraped from the public
 [GMU Catalog](https://catalog.gmu.edu) and may be incomplete or outdated for some programs (see
 "Data quality" below). Always confirm with DegreeWorks or your advisor before making enrollment
 decisions.
