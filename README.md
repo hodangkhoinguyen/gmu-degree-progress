@@ -1,5 +1,7 @@
 # GMU Degree Progress Checker
 
+**Live site: https://hodangkhoinguyen.github.io/gmu-degree-progress/**
+
 A personal tool for tracking progress toward a GMU degree: paste or upload your unofficial
 transcript, pick a program (any level/major GMU offers, with concentration support), and see
 exactly which requirements are satisfied, which are missing, and what your options are for each
