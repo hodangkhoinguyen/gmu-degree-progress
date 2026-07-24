@@ -7,8 +7,13 @@ const GRADE_POINTS = {
 
 const NON_PASSING = new Set(["F", "W", "WF", "IP", "I", "NR", "AU", "U"]);
 
+export function isInProgress(grade) {
+  if (!grade) return true;
+  return grade.trim().toUpperCase() === "IP";
+}
+
 export function isPassingGrade(grade, minGrade = "D") {
-  if (!grade) return true; // in-progress/blank grade: treat as taken for requirement purposes
+  if (isInProgress(grade)) return false; // not done yet — tracked separately as in-progress
   const g = grade.trim().toUpperCase();
   if (NON_PASSING.has(g)) return false;
   if (g === "S" || g === "P") return true; // satisfactory/pass, no GPA value

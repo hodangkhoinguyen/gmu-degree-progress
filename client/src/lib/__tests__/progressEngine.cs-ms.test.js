@@ -39,6 +39,20 @@ describe("CS MS progress evaluation", () => {
     expect(foundation.missingOptions).toEqual(["CS 531"]);
   });
 
+  it("a course with no grade yet (currently in progress) is tracked separately, not as done or missing", () => {
+    const report = evaluateProgress(csMs, null, [
+      { code: "CS 530", grade: "A", credits: 3 },
+      { code: "CS 531", grade: "", credits: 3 }, // enrolled this term, no grade posted yet
+    ]);
+    const foundation = report.programGroups.find((g) => g.key === "foundation-courses");
+    expect(foundation.satisfied).toBe(false); // not done until it has a real grade
+    expect(foundation.matched).toEqual(["CS 530"]);
+    expect(foundation.inProgress).toEqual(["CS 531"]);
+    expect(foundation.missingOptions).toEqual([]); // not "missing" either — it's in progress
+    // in-progress credits shouldn't count as earned yet
+    expect(report.creditsEarned).toBe(3);
+  });
+
   it("core-by-area needs CS 583 plus 2 different other areas, not just 2 courses", () => {
     const oneArea = evaluateProgress(csMs, null, [
       { code: "CS 583", grade: "A", credits: 3 },

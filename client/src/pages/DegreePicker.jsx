@@ -139,7 +139,7 @@ export default function DegreePicker() {
                           <div style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>{g.label}</div>
                           <div>
                             {g.courseCodes.map((code) => (
-                              <CourseChip key={code} code={code} done={false} courseByCode={courseByCode} />
+                              <CourseChip key={code} code={code} status="todo" courseByCode={courseByCode} />
                             ))}
                           </div>
                         </div>

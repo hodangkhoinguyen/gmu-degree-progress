@@ -1,8 +1,10 @@
-export default function CourseChip({ code, done, courseByCode, blockedBy }) {
+const STATUS_LABEL = { done: "Completed", "in-progress": "In progress", todo: "Not yet taken" };
+
+export default function CourseChip({ code, status = "todo", courseByCode, blockedBy }) {
   const course = courseByCode.get(code);
   return (
     <span className="course-chip-wrap" tabIndex={0}>
-      <span className={`course-chip ${done ? "done" : "todo"}`}>
+      <span className={`course-chip ${status}`}>
         {code}
         {blockedBy?.length > 0 && <span title={`Prerequisite not yet completed: ${blockedBy.join(", ")}`}> ⚠</span>}
       </span>
@@ -14,6 +16,7 @@ export default function CourseChip({ code, done, courseByCode, blockedBy }) {
             {course.credits} credit{course.credits === 1 ? "" : "s"}
           </div>
         )}
+        <div className="credits">{STATUS_LABEL[status]}</div>
       </span>
     </span>
   );

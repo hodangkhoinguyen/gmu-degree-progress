@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isPassingGrade, gradePoint, isGpaEligible } from "../grades.js";
+import { isPassingGrade, isInProgress, gradePoint, isGpaEligible } from "../grades.js";
 
 describe("isPassingGrade", () => {
   it("compares against the default D floor", () => {
@@ -13,14 +13,29 @@ describe("isPassingGrade", () => {
     expect(isPassingGrade("C+", "B-")).toBe(false);
   });
 
-  it("treats a blank grade as taken (in-progress courses)", () => {
-    expect(isPassingGrade("")).toBe(true);
-    expect(isPassingGrade(undefined)).toBe(true);
+  it("does not treat a blank or 'IP' grade as passing — it's not done yet", () => {
+    expect(isPassingGrade("")).toBe(false);
+    expect(isPassingGrade(undefined)).toBe(false);
+    expect(isPassingGrade("IP")).toBe(false);
   });
 
   it("treats S/P (satisfactory/pass) as passing regardless of minGrade", () => {
     expect(isPassingGrade("S", "B-")).toBe(true);
     expect(isPassingGrade("P")).toBe(true);
+  });
+});
+
+describe("isInProgress", () => {
+  it("is true for a blank grade or the literal 'IP' code", () => {
+    expect(isInProgress("")).toBe(true);
+    expect(isInProgress(undefined)).toBe(true);
+    expect(isInProgress("IP")).toBe(true);
+  });
+
+  it("is false for any posted grade, passing or not", () => {
+    expect(isInProgress("A")).toBe(false);
+    expect(isInProgress("F")).toBe(false);
+    expect(isInProgress("S")).toBe(false);
   });
 });
 

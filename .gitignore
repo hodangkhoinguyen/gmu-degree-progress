@@ -1,6 +1,6 @@
 node_modules
 *.log
-.tmp-pw
+.tmp-pw*
 dist
 dist-ssr
 .env

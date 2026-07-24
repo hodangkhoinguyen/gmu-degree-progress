@@ -1,5 +1,5 @@
 import { normalizeCode, extractCourseCodes } from "./courseCodes.js";
-import { isPassingGrade, gradePoint, isGpaEligible } from "./grades.js";
+import { isPassingGrade, isInProgress, gradePoint, isGpaEligible } from "./grades.js";
 
 function indexCompletedCourses(completedCourses) {
   const byCode = new Map();
@@ -22,6 +22,11 @@ function isSatisfiedCode(code, byCode, minGrade) {
   return !!rec && isPassingGrade(rec.grade, minGrade);
 }
 
+function isInProgressCode(code, byCode) {
+  const rec = byCode.get(normalizeCode(code));
+  return !!rec && isInProgress(rec.grade);
+}
+
 function creditsOf(code, byCode, courseCreditLookup) {
   const rec = byCode.get(normalizeCode(code));
   if (rec?.credits != null) return Number(rec.credits) || 0;
@@ -32,12 +37,14 @@ function evaluateFlatGroup(group, byCode, courseCreditLookup) {
   const minGrade = group.minGrade || "D";
   const pool = group.courseCodes || [];
   const matched = pool.filter((c) => isSatisfiedCode(c, byCode, minGrade));
-  const missingOptions = pool.filter((c) => !matched.includes(c));
+  const inProgress = pool.filter((c) => !matched.includes(c) && isInProgressCode(c, byCode));
+  const missingOptions = pool.filter((c) => !matched.includes(c) && !inProgress.includes(c));
 
   if (group.type === "all-of") {
     return {
       satisfied: matched.length === pool.length && pool.length > 0,
       matched,
+      inProgress,
       missingOptions,
       progressLabel: `${matched.length}/${pool.length} courses`,
     };
@@ -48,6 +55,7 @@ function evaluateFlatGroup(group, byCode, courseCreditLookup) {
     return {
       satisfied: earned >= group.minCredits,
       matched,
+      inProgress,
       missingOptions,
       creditsEarned: earned,
       creditsRequired: group.minCredits,
@@ -60,6 +68,7 @@ function evaluateFlatGroup(group, byCode, courseCreditLookup) {
   return {
     satisfied: matched.length >= minCourses,
     matched,
+    inProgress,
     missingOptions,
     progressLabel: `${matched.length}/${minCourses} courses`,
   };
@@ -70,17 +79,22 @@ function evaluateAreaGroup(group, byCode, courseCreditLookup) {
   const requiredMatched = (group.requiredCourseCodes || []).filter((c) =>
     isSatisfiedCode(c, byCode, minGrade)
   );
+  const requiredInProgress = (group.requiredCourseCodes || []).filter(
+    (c) => !requiredMatched.includes(c) && isInProgressCode(c, byCode)
+  );
   const requiredMissing = (group.requiredCourseCodes || []).filter(
-    (c) => !requiredMatched.includes(c)
+    (c) => !requiredMatched.includes(c) && !requiredInProgress.includes(c)
   );
 
   const areaResults = (group.areas || []).map((area) => {
     const matched = area.courseCodes.filter((c) => isSatisfiedCode(c, byCode, minGrade));
+    const inProgress = area.courseCodes.filter((c) => !matched.includes(c) && isInProgressCode(c, byCode));
     return {
       name: area.name,
       satisfied: matched.length > 0,
       matched,
-      options: area.courseCodes.filter((c) => !matched.includes(c)),
+      inProgress,
+      options: area.courseCodes.filter((c) => !matched.includes(c) && !inProgress.includes(c)),
     };
   });
 
@@ -102,6 +116,7 @@ function evaluateAreaGroup(group, byCode, courseCreditLookup) {
   return {
     satisfied: requiredOk && areasOk && areaCoursesOk && areaCreditsOk,
     matched: requiredMatched,
+    inProgress: requiredInProgress,
     missingOptions: requiredMissing,
     areas: areaResults,
     ...(group.minCourses != null && { areaCoursesMatched: allAreaMatched.length }),

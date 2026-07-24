@@ -21,10 +21,13 @@ function AreaBreakdown({ areas, courseByCode }) {
           </div>
           <div>
             {area.matched.map((c) => (
-              <CourseChip key={c} code={c} done courseByCode={courseByCode} />
+              <CourseChip key={c} code={c} status="done" courseByCode={courseByCode} />
+            ))}
+            {area.inProgress.map((c) => (
+              <CourseChip key={c} code={c} status="in-progress" courseByCode={courseByCode} />
             ))}
             {!area.satisfied &&
-              area.options.slice(0, 12).map((c) => <CourseChip key={c} code={c} done={false} courseByCode={courseByCode} />)}
+              area.options.slice(0, 12).map((c) => <CourseChip key={c} code={c} status="todo" courseByCode={courseByCode} />)}
           </div>
         </div>
       ))}
@@ -47,14 +50,17 @@ export default function RequirementGroupCard({ group, courseByCode }) {
       ) : (
         <div style={{ marginTop: "0.5rem" }}>
           {group.matched.map((c) => (
-            <CourseChip key={c} code={c} done courseByCode={courseByCode} />
+            <CourseChip key={c} code={c} status="done" courseByCode={courseByCode} />
+          ))}
+          {group.inProgress.map((c) => (
+            <CourseChip key={c} code={c} status="in-progress" courseByCode={courseByCode} />
           ))}
           {!group.satisfied &&
             group.missingOptions.map((c) => (
               <CourseChip
                 key={c}
                 code={c}
-                done={false}
+                status="todo"
                 courseByCode={courseByCode}
                 blockedBy={group.blockedByPrereq?.[c]}
               />

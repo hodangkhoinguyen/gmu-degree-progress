@@ -226,6 +226,7 @@ th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(
   margin: 0.1rem 0.25rem 0.1rem 0;
 }
 .course-chip.done { background: var(--success-bg); color: var(--success); border-color: transparent; }
+.course-chip.in-progress { background: var(--gold-bg); color: var(--gold); border-color: transparent; }
 .course-chip.todo { color: var(--text-muted); }
 
 .course-chip-wrap {
