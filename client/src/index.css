@@ -115,11 +115,24 @@ button {
   background: var(--surface);
   color: var(--text);
   padding: 0.5rem 1rem;
+  transition: border-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease, filter 0.15s ease;
 }
 button.primary {
   background: var(--accent);
   color: var(--accent-contrast);
   border-color: transparent;
+}
+button:not(:disabled):hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+button.primary:not(:disabled):hover {
+  filter: brightness(1.1);
+}
+button:not(:disabled):active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 button:disabled { opacity: 0.5; cursor: not-allowed; }
 
@@ -130,9 +143,20 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   width: 2.25rem;
   height: 2.25rem;
   padding: 0;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
   color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
 }
-.icon-button:hover { border-color: var(--accent); color: var(--accent); }
+.icon-button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+.icon-button:active { transform: translateY(0); box-shadow: none; }
 
 input, textarea, select {
   font-family: inherit;
