@@ -9,8 +9,8 @@ async function fetchJson(path) {
 export async function loadCatalog() {
   if (cache) return cache;
   const [programsData, coursesData] = await Promise.all([
-    fetchJson("/data/programs.json"),
-    fetchJson("/data/courses.json").catch(() => ({ courses: [] })),
+    fetchJson(`${import.meta.env.BASE_URL}data/programs.json`),
+    fetchJson(`${import.meta.env.BASE_URL}data/courses.json`).catch(() => ({ courses: [] })),
   ]);
   cache = {
     generatedAt: programsData.generatedAt,

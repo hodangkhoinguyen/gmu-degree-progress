@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import { HashRouter, Routes, Route, NavLink } from "react-router-dom";
 import { AppStateProvider } from "./state/AppStateContext.jsx";
 import Home from "./pages/Home.jsx";
 import TranscriptUpload from "./pages/TranscriptUpload.jsx";
@@ -25,7 +25,7 @@ function Nav() {
 export default function App() {
   return (
     <AppStateProvider>
-      <BrowserRouter>
+      <HashRouter>
         <Nav />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -34,7 +34,7 @@ export default function App() {
           <Route path="/report" element={<ProgressReport />} />
         </Routes>
         <Footer />
-      </BrowserRouter>
+      </HashRouter>
     </AppStateProvider>
   );
 }
